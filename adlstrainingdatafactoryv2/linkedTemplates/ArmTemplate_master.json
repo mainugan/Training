@@ -15,6 +15,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'DLSTargetProviderFunctionConnection'"
 		},
+		"OrganizedDLSConnection_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'OrganizedDLSConnection'"
+		},
+		"OrdersBlobStorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'OrdersBlobStorage'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://adlstrainingvault.vault.azure.net/"
@@ -22,6 +30,10 @@
 		"DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl": {
 			"type": "string",
 			"defaultValue": "https://dlstargetprocessor.azurewebsites.net/"
+		},
+		"OrganizedDLSConnection_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsadftrainingaccount.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -53,6 +65,12 @@
 					"DLSTargetProviderFunctionConnection_functionKey": {
 						"value": "[parameters('DLSTargetProviderFunctionConnection_functionKey')]"
 					},
+					"OrganizedDLSConnection_accountKey": {
+						"value": "[parameters('OrganizedDLSConnection_accountKey')]"
+					},
+					"OrdersBlobStorage_connectionString": {
+						"value": "[parameters('OrdersBlobStorage_connectionString')]"
+					},
 					"BlobMetadataSqlConnection_connectionString": {
 						"value": "[parameters('BlobMetadataSqlConnection_connectionString')]"
 					},
@@ -61,6 +79,9 @@
 					},
 					"DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl": {
 						"value": "[parameters('DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl')]"
+					},
+					"OrganizedDLSConnection_properties_typeProperties_url": {
+						"value": "[parameters('OrganizedDLSConnection_properties_typeProperties_url')]"
 					}
 				}
 			},
