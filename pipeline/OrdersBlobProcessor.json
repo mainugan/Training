@@ -228,6 +228,49 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Update Blob metadata",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy blobStorage to DLS",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[uspUpdateBlobMetadata]",
+								"storedProcedureParameters": {
+									"dlsLocation": {
+										"value": {
+											"value": "@item().recordIdconcat(activity('process blobs').output.targetOrganizedFullPath, '/', activity('process blobs').output.targetOrganizedFileName)",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"recordId": {
+										"value": {
+											"value": "@item().RecordId",
+											"type": "Expression"
+										},
+										"type": "Int32"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "BlobMetadataSqlConnection",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
