@@ -1,0 +1,8 @@
+{
+	"name": "OrdersBlobProcessor",
+	"properties": {
+		"description": "Load processable blobs",
+		"concurrency": 1,
+		"annotations": []
+	}
+}
