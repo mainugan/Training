@@ -46,7 +46,38 @@
 						"value": "@activity('Load Processable blobs').output.value",
 						"type": "Expression"
 					},
-					"isSequential": true
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Prepare dls Target info",
+							"type": "AzureFunctionActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"functionName": "DLSTargetProcessor",
+								"method": "POST",
+								"headers": {
+									"Content-type": "application/json",
+									"Accept": "application/json"
+								},
+								"body": {
+									"value": "@concat('{\"blobPath\":\"', item().Path, '\", \"blobName\":\"', item().BlobName, '\"}')",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "DLSTargetProviderFunctionConnection",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
 				}
 			}
 		],
