@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adlstrainingdatafactoryv2"
 		},
+		"BlobMetadataSqlConnection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'BlobMetadataSqlConnection'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://adlstrainingvault.vault.azure.net/"
@@ -37,6 +41,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"BlobMetadataSqlConnection_connectionString": {
+						"value": "[parameters('BlobMetadataSqlConnection_connectionString')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"

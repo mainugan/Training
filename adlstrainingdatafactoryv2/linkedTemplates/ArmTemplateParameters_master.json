@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "adlstrainingdatafactoryv2"
 		},
+		"BlobMetadataSqlConnection_connectionString": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://adlstrainingvault.vault.azure.net/"
 		},
