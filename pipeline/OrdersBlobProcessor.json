@@ -76,6 +76,158 @@
 								"referenceName": "DLSTargetProviderFunctionConnection",
 								"type": "LinkedServiceReference"
 							}
+						},
+						{
+							"name": "Copy blobStorage to DLS",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "process blobs",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "orderid",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "orderid"
+											}
+										},
+										{
+											"source": {
+												"name": "orderdate",
+												"type": "String"
+											},
+											"sink": {
+												"name": "orderdate"
+											}
+										},
+										{
+											"source": {
+												"name": "customer",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "customer"
+											}
+										},
+										{
+											"source": {
+												"name": "product",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "product"
+											}
+										},
+										{
+											"source": {
+												"name": "units",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "units"
+											}
+										},
+										{
+											"source": {
+												"name": "billingaddress",
+												"type": "String"
+											},
+											"sink": {
+												"name": "billingaddress"
+											}
+										},
+										{
+											"source": {
+												"name": "remarks",
+												"type": "String"
+											},
+											"sink": {
+												"name": "remarks"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "OrderBlobStorageDataSet",
+									"type": "DatasetReference",
+									"parameters": {
+										"ContainerName": {
+											"value": "@activity('process blobs').output.containerName",
+											"type": "Expression"
+										},
+										"folder": {
+											"value": "@activity('process blobs').output.path",
+											"type": "Expression"
+										},
+										"filename": {
+											"value": "@activity('process blobs').output.blobName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "OrganizedOrderDLSDataSet",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileSystemName": "organized-data",
+										"folder": {
+											"value": "@activity('process blobs').output.targetOrganizedFullPath",
+											"type": "Expression"
+										},
+										"fileName": {
+											"value": "@activity('process blobs').output.targetOrganizedFileName",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}
