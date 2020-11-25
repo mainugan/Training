@@ -60,6 +60,18 @@
 								"secureInput": false
 							},
 							"userProperties": [],
+							"typeProperties": {
+								"functionName": "DLSTargetProcessor",
+								"method": "POST",
+								"headers": {
+									"content-type": "application/json",
+									"accept": "application/json"
+								},
+								"body": {
+									"value": "@concat('{\"blobPath\":\"', item().Path, '\", \"blobName\":\"', item().BlobName, '\"}')",
+									"type": "Expression"
+								}
+							},
 							"linkedServiceName": {
 								"referenceName": "DLSTargetProviderFunctionConnection",
 								"type": "LinkedServiceReference"
