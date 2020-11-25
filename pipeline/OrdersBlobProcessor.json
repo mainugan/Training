@@ -61,7 +61,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"functionName": "DLSTargetProcessor",
+								"functionName": "DLSTargetProvider",
 								"method": "POST",
 								"headers": {
 									"content-type": "application/json",
