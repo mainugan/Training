@@ -49,7 +49,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Prepare dls Target info",
+							"name": "process blobs",
 							"type": "AzureFunctionActivity",
 							"dependsOn": [],
 							"policy": {
@@ -60,18 +60,6 @@
 								"secureInput": false
 							},
 							"userProperties": [],
-							"typeProperties": {
-								"functionName": "DLSTargetProcessor",
-								"method": "POST",
-								"headers": {
-									"Content-type": "application/json",
-									"Accept": "application/json"
-								},
-								"body": {
-									"value": "@concat('{\"blobPath\":\"', item().Path, '\", \"blobName\":\"', item().BlobName, '\"}')",
-									"type": "Expression"
-								}
-							},
 							"linkedServiceName": {
 								"referenceName": "DLSTargetProviderFunctionConnection",
 								"type": "LinkedServiceReference"
