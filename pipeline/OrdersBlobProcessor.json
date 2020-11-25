@@ -25,7 +25,8 @@
 					"dataset": {
 						"referenceName": "BlobMetadataDataSet",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
