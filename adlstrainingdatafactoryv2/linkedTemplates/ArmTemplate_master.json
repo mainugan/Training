@@ -11,9 +11,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'BlobMetadataSqlConnection'"
 		},
+		"DLSTargetProviderFunctionConnection_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'DLSTargetProviderFunctionConnection'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://adlstrainingvault.vault.azure.net/"
+		},
+		"DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://dlstargetprocessor.azurewebsites.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -42,11 +50,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"DLSTargetProviderFunctionConnection_functionKey": {
+						"value": "[parameters('DLSTargetProviderFunctionConnection_functionKey')]"
+					},
 					"BlobMetadataSqlConnection_connectionString": {
 						"value": "[parameters('BlobMetadataSqlConnection_connectionString')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+					},
+					"DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl')]"
 					}
 				}
 			},

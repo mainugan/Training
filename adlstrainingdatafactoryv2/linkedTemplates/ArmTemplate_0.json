@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adlstrainingdatafactoryv2"
 		},
+		"DLSTargetProviderFunctionConnection_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'DLSTargetProviderFunctionConnection'"
+		},
 		"BlobMetadataSqlConnection_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'BlobMetadataSqlConnection'"
@@ -14,6 +18,10 @@
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://adlstrainingvault.vault.azure.net/"
+		},
+		"DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://dlstargetprocessor.azurewebsites.net/"
 		}
 	},
 	"variables": {
@@ -29,6 +37,23 @@
 				"type": "AzureKeyVault",
 				"typeProperties": {
 					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DLSTargetProviderFunctionConnection')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureFunction",
+				"typeProperties": {
+					"functionAppUrl": "[parameters('DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl')]",
+					"functionKey": {
+						"type": "SecureString",
+						"value": "[parameters('DLSTargetProviderFunctionConnection_functionKey')]"
+					}
 				}
 			},
 			"dependsOn": []
@@ -170,7 +195,59 @@
 								"referenceName": "BlobMetadataDataSet",
 								"type": "DatasetReference",
 								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Iterate Porcessable blobs",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Load Processable blobs",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Load Processable blobs').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "process blobs",
+									"type": "AzureFunctionActivity",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"functionName": "DLSTargetProcessor",
+										"method": "POST",
+										"headers": {
+											"content-type": "application/json",
+											"accept": "application/json"
+										},
+										"body": {
+											"value": "@concat('{\"blobPath\":\"', item().Path, '\", \"blobName\":\"', item().BlobName, '\"}')",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "DLSTargetProviderFunctionConnection",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
 						}
 					}
 				],
@@ -178,7 +255,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/BlobMetadataDataSet')]"
+				"[concat(variables('factoryId'), '/datasets/BlobMetadataDataSet')]",
+				"[concat(variables('factoryId'), '/linkedServices/DLSTargetProviderFunctionConnection')]"
 			]
 		}
 	]
