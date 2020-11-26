@@ -7,13 +7,16 @@
 		},
 		"parameters": {
 			"ContainerName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "order"
 			},
 			"folder": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "/"
 			},
 			"filename": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "orders-1.csv"
 			}
 		},
 		"annotations": [],

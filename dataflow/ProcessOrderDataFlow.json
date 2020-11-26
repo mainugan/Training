@@ -1,0 +1,20 @@
+{
+	"name": "ProcessOrderDataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "OrderBlobStorageDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersInputSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "source(output(\n\t\torderid as string,\n\t\torderdate as string,\n\t\tcustomer as string,\n\t\tproduct as string,\n\t\tunits as string,\n\t\tbillingaddress as string,\n\t\tremarks as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tlimit: 100) ~> OrdersInputSource"
+		}
+	}
+}
