@@ -24,7 +24,7 @@
 			"value": "https://adlsadftrainingaccount.dfs.core.windows.net"
 		},
 		"DataProcessor_properties_typeProperties_functionAppUrl": {
-			"value": "https://dlstargetprocessor.azurewebsites.net"
+			"value": "http://dlstargetprocessor.azurewebsites.net"
 		}
 	}
 }
