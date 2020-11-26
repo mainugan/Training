@@ -64,8 +64,8 @@
 								"functionName": "DLSTargetProcessor",
 								"method": "POST",
 								"headers": {
-									"content-type": "application/json",
-									"accept": "application/json"
+									"Content-Type": "application/json",
+									"Accept": "application/json"
 								},
 								"body": {
 									"value": "@concat('{\"blobPath\":\"', item().Path,'\", \"blobName\": \"', item().BlobName, '\"}')",
