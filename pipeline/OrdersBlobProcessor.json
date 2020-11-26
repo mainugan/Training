@@ -61,7 +61,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"functionName": "DLSTargetProvider",
+								"functionName": "DLSTargetProcessor",
 								"method": "POST",
 								"headers": {
 									"content-type": "application/json",
@@ -73,7 +73,7 @@
 								}
 							},
 							"linkedServiceName": {
-								"referenceName": "DLSTargetProviderFunctionConnection",
+								"referenceName": "DataProcessor",
 								"type": "LinkedServiceReference"
 							}
 						},
