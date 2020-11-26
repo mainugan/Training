@@ -253,7 +253,7 @@
 								"storedProcedureParameters": {
 									"dlsLocation": {
 										"value": {
-											"value": "@item().recordIdconcat(activity('process blobs').output.targetOrganizedFullPath, '/', activity('process blobs').output.targetOrganizedFileName)",
+											"value": "@concat(activity('process blobs').output.targetOrganizedFullPath, '/', activity('process blobs').output.targetOrganizedFileName)",
 											"type": "Expression"
 										},
 										"type": "String"
