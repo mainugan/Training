@@ -8,23 +8,23 @@
 		"BlobMetadataSqlConnection_connectionString": {
 			"value": ""
 		},
-		"DLSTargetProviderFunctionConnection_functionKey": {
-			"value": ""
-		},
 		"OrganizedDLSConnection_accountKey": {
 			"value": ""
 		},
 		"OrdersBlobStorage_connectionString": {
 			"value": ""
 		},
+		"DataProcessor_functionKey": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://adlstrainingvault.vault.azure.net/"
 		},
-		"DLSTargetProviderFunctionConnection_properties_typeProperties_functionAppUrl": {
-			"value": "https://dlstargetprocessor.azurewebsites.net/"
-		},
 		"OrganizedDLSConnection_properties_typeProperties_url": {
 			"value": "https://adlsadftrainingaccount.dfs.core.windows.net"
+		},
+		"DataProcessor_properties_typeProperties_functionAppUrl": {
+			"value": "https://dlstargetprocessor.azurewebsites.net"
 		}
 	}
 }
