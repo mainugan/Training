@@ -33,7 +33,7 @@
 		},
 		"DataProcessor_properties_typeProperties_functionAppUrl": {
 			"type": "string",
-			"defaultValue": "http://dlstargetprocessor.azurewebsites.net"
+			"defaultValue": "https://dlstargetprocessor.azurewebsites.net"
 		},
 		"containerUri": {
 			"type": "string",
