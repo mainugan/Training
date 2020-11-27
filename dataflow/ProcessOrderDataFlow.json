@@ -10,11 +10,45 @@
 						"type": "DatasetReference"
 					},
 					"name": "OrdersInputSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "CustomerDLSDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "Customers"
+				},
+				{
+					"dataset": {
+						"referenceName": "ProductsDLSDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "Products"
+				},
+				{
+					"dataset": {
+						"referenceName": "CapitalCitiesSqlDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "CapitalCities"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
-			"script": "source(output(\n\t\torderid as integer,\n\t\torderdate as string,\n\t\tcustomer as integer,\n\t\tproduct as integer,\n\t\tunits as integer,\n\t\tbillingaddress as string,\n\t\tremarks as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tlimit: 100) ~> OrdersInputSource"
+			"transformations": [
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\torderid as integer,\n\t\torderdate as string,\n\t\tcustomer as integer,\n\t\tproduct as integer,\n\t\tunits as integer,\n\t\tbillingaddress as string,\n\t\tremarks as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tlimit: 100) ~> OrdersInputSource\nsource(output(\n\t\tcustomerid as integer,\n\t\tfullname as string,\n\t\taddress as string,\n\t\tcredit as integer,\n\t\tstatus as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Customers\nsource(output(\n\t\t{_corrupt_record} as string,\n\t\titemdiscount as short,\n\t\tproductid as short,\n\t\ttitle as string,\n\t\tunitprice as short,\n\t\tunitsinstock as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> Products\nsource(output(\n\t\tCityId as integer,\n\t\tCityName as string,\n\t\tRegion as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> CapitalCities\nOrdersInputSource, Customers join(customer == customerid,\n\tjoinType:'inner',\n\tbroadcast: 'right')~> Join1\nJoin1, Products join(product == productid,\n\tjoinType:'inner',\n\tbroadcast: 'right')~> Join2\nJoin2, CapitalCities join(address == CityName,\n\tjoinType:'inner',\n\tbroadcast: 'right')~> Join3\nJoin3 select(mapColumn(\n\t\torderid,\n\t\torderdate,\n\t\tunits,\n\t\tbillingaddress,\n\t\tfullname,\n\t\tcustomeraddress = address,\n\t\tcredit,\n\t\tstatus,\n\t\titemdiscount,\n\t\tunitprice,\n\t\tunitsinstock,\n\t\tCityName,\n\t\tRegion\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1"
 		}
 	}
 }
